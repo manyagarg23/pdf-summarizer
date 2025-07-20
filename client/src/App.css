@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+/* Define custom theme colors as CSS variables */
+:root {
+  --color-modern-blue: #729598;
+  --color-modern-tan: #dcb084;
+  --color-modern-sage: #a1a189;
+  --color-modern-cream: #e9dcef;
+  --color-modern-brick: #903729;
+  --color-modern-charcoal: #4f5e62;
+}
+
+/* Example usage of theme colors */
+.bg-modern-blue {
+  background-color: var(--color-modern-blue);
+}
+.text-modern-brick {
+  color: var(--color-modern-brick);
+}
+/* Add more utility classes as needed */
+
+/* Define breakpoints using media queries */
+@media (min-width: 640px) {
+  /* sm */
+  .sm\:text-modern-tan {
+    color: var(--color-modern-tan);
+  }
+}
+@media (min-width: 768px) {
+  /* md */
+  .md\:bg-modern-sage {
+    background-color: var(--color-modern-sage);
+  }
+}
+@media (min-width: 1024px) {
+  /* lg */
+  .lg\:text-modern-cream {
+    color: var(--color-modern-cream);
+  }
+}
+@media (min-width: 1280px) {
+  /* xl */
+  .xl\:bg-modern-charcoal {
+    background-color: var(--color-modern-charcoal);
+  }
+}
