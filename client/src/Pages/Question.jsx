@@ -1,43 +1,45 @@
 // Pages/QuestionPage.jsx
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
 
-function Question({ fileId, quesArray, setQuesArray }) {
-  const [loading, setLoading] = useState(false);
+function Question({ handleQuestions }) {
+  const [question, setQuestion] = useState("");
 
-  const handleQuestions = async (questionText) => {
-    setLoading(true);
-    try {
-      const res = await axios.post("http://localhost:5000/question", {
-        question: questionText,
-        fileId,
-      });
-      setQuesArray(prev => [...prev, { question: questionText, answer: res.data.answer }]);
-    } catch (err) {
-      console.error("Question error", err);
-    } finally {
-      setLoading(false);
+  function handleChange(event) {
+    setQuestion(event.target.value);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (question.trim() !== "") {
+      handleQuestions(question);
+      setQuestion("");
     }
-  };
+  }
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold text-modern-brick mb-4">❓ Q&A</h1>
-      <Question handleQuestions={handleQuestions} />
-      {loading && <p>Loading answer...</p>}
-      {quesArray.length > 0 && (
-        <div className="bg-white p-4 rounded shadow mt-4">
-          <ul className="space-y-3 text-sm">
-            {quesArray.map((qna, idx) => (
-              <li key={idx} className="border-b pb-2">
-                <strong className="text-modern-brick">Q:</strong> {qna.question}<br />
-                <strong className="text-modern-blue">A:</strong> {qna.answer}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
+    <form onSubmit={handleSubmit} style={{ marginTop: "30px" }}>
+      <input
+        type="text"
+        value={question}
+        onChange={handleChange}
+        placeholder="Ask a question about the PDF"
+        style={{ padding: "10px", width: "60%", fontSize: "14px", borderRadius: "4px" }}
+      />
+      <button
+        type="submit"
+        style={{
+          marginLeft: "10px",
+          padding: "10px 20px",
+          backgroundColor: "#4f46e5",
+          color: "white",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer"
+        }}
+      >
+        Submit
+      </button>
+    </form>
   );
 }
 

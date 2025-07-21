@@ -1,34 +1,54 @@
-
 import React, { useState } from 'react';
-import axios from 'axios';
-import LoadingSpinner from '../Components/LoadingSpinner';
-import { useNavigate } from 'react-router-dom';
 
-function FileUpload({ setPdfText, setFileId }) {
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+function FileUpload({ onFileUpload }) {
+  const [isDragging, setIsDragging] = useState(false);
 
-  const handleFileUpload = async (files) => {
-    const formData = new FormData();
-    formData.append("file", files[0]);
-    setLoading(true);
-    try {
-      const res = await axios.post("http://localhost:5000/upload", formData);
-      setPdfText(res.data.extractedText);
-      setFileId(res.data.id);
-      navigate("/summary"); 
-    } catch (err) {
-      console.error("Upload error", err);
-    } finally {
-      setLoading(false);
-    }
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const files = e.dataTransfer.files;
+    onFileUpload(files);
+  };
+
+  const handleFileSelect = (e) => {
+    const files = e.target.files;
+    onFileUpload(files);
   };
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-4 text-modern-brick">📤 Upload PDF</h1>
-      <FileUpload onFileUpload={handleFileUpload} />
-      {loading && <LoadingSpinner />}
+    <div className="flex items-center justify-center bg-gray-100 px-4 py-8">
+      <div
+        className={`border-4 border-dashed rounded-2xl p-10 w-full max-w-xl bg-white transition-all duration-300 ${
+          isDragging ? 'border-blue-500 bg-blue-50 shadow-lg scale-105' : 'border-gray-300'
+        }`}
+        onDragEnter={handleDragEnter}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+      >
+        <div className="text-center space-y-4">
+          <p className="text-5xl">📄</p>
+          <p className="text-lg font-medium text-gray-700">Drag & drop your PDF here</p>
+          <p className="text-sm text-gray-500">or</p>
+          <label className="inline-block cursor-pointer bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
+            Choose File
+            <input type="file" accept="application/pdf" onChange={handleFileSelect} hidden />
+          </label>
+        </div>
+      </div>
     </div>
   );
 }
