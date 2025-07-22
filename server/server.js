@@ -9,6 +9,7 @@ const mongoose = require("mongoose");
 const uploadRoutes = require("./routes/upload");
 const summaryRoutes = require("./routes/summary");
 const questionRoutes = require("./routes/question");
+const tocRoutes = require("./routes/toc");
 const app = express();
 const upload = multer({ dest: "uploads/" });
 
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use("/", uploadRoutes);
 app.use("/", summaryRoutes);
 app.use("/", questionRoutes);
+app.use("/", tocRoutes);
 
 app.use(express.urlencoded({ extended: true }));
 

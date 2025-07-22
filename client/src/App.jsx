@@ -4,6 +4,7 @@ import NavBar from './Components/NavBar';
 import FileUpload from './Pages/FileUpload';
 import Summary from './Pages/Summary';
 import Question from './Pages/Question';
+import TOC from './Pages/TOC';
 import SignUp from './Components/SignUp';
 import './App.css';
 import axios from 'axios';
@@ -11,6 +12,7 @@ import axios from 'axios';
 function App() {
   const [pdfText, setPdfText] = useState('');
   const [summary, setSummary] = useState('');
+  const [toc, setToc] = useState('');
   const [quesArray, setQuesArray] = useState([]);
   const [fileId, setFileId] = useState('');
 
@@ -33,6 +35,15 @@ function App() {
       setSummary(res.data.summary);
     } catch (err) {
       console.error("Summary error", err);
+    }
+  };
+
+   const handleTOC = async () => {
+    try {
+      const res = await axios.post("http://localhost:5000/toc", { text: pdfText });
+      setToc(res.data.toc);
+    } catch (err) {
+      console.error("TOC error", err);
     }
   };
 
@@ -83,6 +94,18 @@ function App() {
           >
             Generate Summary
           </button>
+
+          <button onClick={handleTOC} style={{
+              marginTop: "20px",
+              backgroundColor: "#4f46e5",
+              color: "white",
+              border: "none",
+              padding: "10px 20px",
+              borderRadius: "5px",
+              cursor: "pointer"
+            }}>
+            Generate TOC
+          </button>
         </>
       )}
 
@@ -102,6 +125,9 @@ function App() {
           </ul>
         </div>
       )}
+
+      {toc && <TOC toc={toc} />}
+
     </div>
   );
 }
