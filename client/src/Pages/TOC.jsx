@@ -1,19 +1,25 @@
 import React from 'react';
 
-export default function TOC({ toc }) {
-  // Try to split on patterns like "1. ", "2. ", etc.
+// TOC Component
+function TOC({ toc }) {
   const tocItems = toc.split(/(?=\d+\.\s)/).filter(item => item.trim() !== '');
 
   return (
-    <div style={{ marginTop: "30px", textAlign: "left", maxWidth: "700px", marginInline: "auto" }}>
-      <h2>📑 Table of Contents</h2>
-      <ol style={{ paddingLeft: "20px", lineHeight: "1.6", fontSize: "16px" }}>
-        {tocItems.map((item, index) => (
-          <li key={index} style={{ marginBottom: "8px" }}>
-            {item.trim()}
-          </li>
-        ))}
-      </ol>
+    <div className="space-y-3">
+      <h3 className="text-lg font-semibold text-modern-charcoal flex items-center gap-2">
+        <span>📑</span> Table of Contents
+      </h3>
+      <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 max-h-64 overflow-y-auto">
+        <ol className="space-y-2 text-sm text-blue-800">
+          {tocItems.map((item, index) => (
+            <li key={index} className="leading-relaxed">
+              {item.trim()}
+            </li>
+          ))}
+        </ol>
+      </div>
     </div>
   );
 }
+
+export default TOC;

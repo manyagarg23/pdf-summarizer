@@ -1,26 +1,23 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const NavBar = () => {
-  const location = useLocation();
-  const activeLink = "underline text-modern-cream font-semibold";
+function NavBar() {
+  const navigate = useNavigate();
 
   return (
-    <nav className="bg-modern-blue text-white px-6 py-4 shadow flex justify-between items-center">
-      <h2 className="text-xl font-bold">PDF Summarizer</h2>
-      <div className="space-x-4">
-        <Link to="/signup" className={location.pathname === "/signup" ? activeLink : "hover:underline"}>
-          Sign Up
-        </Link>
-        <Link to="/upload" className={location.pathname === "/upload" ? activeLink : "hover:underline"}>
-          Upload
-        </Link> 
-        <Link to="/question" className={location.pathname === "/question" ? activeLink : "hover:underline"}>
-          Q&A
-        </Link>
-      </div>
-    </nav>
+    <div className="flex items-center justify-between w-full">
+      <h1 className="text-xl font-bold text-white">PDF Analyzer</h1>
+      <button
+      className="text-white px-4 py-2 rounded transition font-medium hover:opacity-90"
+      style={{ backgroundColor: '#903729' }}
+      onMouseEnter={e => (e.target.style.backgroundColor = '#4f5e62')}
+      onMouseLeave={e => (e.target.style.backgroundColor = '#903729')}
+      onClick={() => navigate('/signin')}
+      >
+        Sign In
+      </button>
+    </div>
   );
-};
+}
 
 export default NavBar;

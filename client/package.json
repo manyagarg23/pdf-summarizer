@@ -11,7 +11,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@babel/runtime": "^7.27.6",
     "@tailwindcss/vite": "^4.1.11",
+    "@uiw/react-split": "^5.9.3",
     "axios": "^1.10.0",
     "firebase": "^12.0.0",
     "react": "^19.1.0",

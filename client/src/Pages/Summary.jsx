@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+// Summary Component
 
-export default function Summary({ summary }) {
+import React from 'react';
+
+function Summary({ summary }) {
   return (
-    <div style={{ marginTop: "30px", maxWidth: "700px", marginInline: "auto", textAlign: "left" }}>
-      <h2>📝 Summary</h2>
-      <p style={{
-        background: "#ecfccb",
-        padding: "15px",
-        borderRadius: "8px",
-        fontSize: "16px",
-        color: "#365314",
-        lineHeight: "1.6"
-      }}>
-        {summary}
-      </p>
+    <div className="space-y-3">
+      <h3 className="text-lg font-semibold text-modern-charcoal flex items-center gap-2">
+        <span>📝</span> Summary
+      </h3>
+      <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+        <p className="text-green-800 text-sm leading-relaxed">
+          {summary}
+        </p>
+      </div>
     </div>
   );
 }
+export default Summary;

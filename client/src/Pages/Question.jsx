@@ -1,5 +1,6 @@
-// Pages/QuestionPage.jsx
-import React, { useState } from "react";
+// Question Component
+
+import React, { useState } from 'react';
 
 function Question({ handleQuestions }) {
   const [question, setQuestion] = useState("");
@@ -8,38 +9,40 @@ function Question({ handleQuestions }) {
     setQuestion(event.target.value);
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  function handleSubmit() {
     if (question.trim() !== "") {
       handleQuestions(question);
       setQuestion("");
     }
   }
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleSubmit();
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit} style={{ marginTop: "30px" }}>
-      <input
-        type="text"
-        value={question}
-        onChange={handleChange}
-        placeholder="Ask a question about the PDF"
-        style={{ padding: "10px", width: "60%", fontSize: "14px", borderRadius: "4px" }}
-      />
-      <button
-        type="submit"
-        style={{
-          marginLeft: "10px",
-          padding: "10px 20px",
-          backgroundColor: "#4f46e5",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer"
-        }}
-      >
-        Submit
-      </button>
-    </form>
+    <div className="space-y-4">
+      <h3 className="text-lg font-semibold text-modern-charcoal mb-3">Ask a Question</h3>
+      <div className="space-y-3">
+        <input
+          type="text"
+          value={question}
+          onChange={handleChange}
+          onKeyPress={handleKeyPress}
+          placeholder="Ask a question about the PDF..."
+          className="w-full p-3 border border-gray-300 rounded-lg text-sm text-modern-charcoal focus:outline-none focus:ring-2 focus:ring-modern-blue focus:border-transparent"
+        />
+        <button
+          onClick={handleSubmit}
+          className="w-full bg-modern-blue text-white py-2 px-4 rounded-lg hover-bg-modern-blue-dark transition font-medium"
+        >
+          Submit Question
+        </button>
+      </div>
+    </div>
   );
 }
 

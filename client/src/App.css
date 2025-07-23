@@ -8,6 +8,7 @@
   --color-modern-cream: #e9dcef;
   --color-modern-brick: #903729;
   --color-modern-charcoal: #4f5e62;
+  --color-modern-grey: #e8e9eb;
 }
 
 /* Example usage of theme colors */
@@ -43,4 +44,61 @@
   .xl\:bg-modern-charcoal {
     background-color: var(--color-modern-charcoal);
   }
+}
+
+
+/* Background colors */
+.bg-modern-grey {
+  background-color: var(--color-modern-grey);
+}
+.bg-modern-tan {
+  background-color: var(--color-modern-tan);
+}
+.bg-modern-sage {
+  background-color: var(--color-modern-sage);
+}
+.bg-modern-cream {
+  background-color: var(--color-modern-cream);
+}
+.bg-modern-charcoal {
+  background-color: var(--color-modern-charcoal);
+}
+
+/* Text colors */
+.text-modern-blue {
+  color: var(--color-modern-blue);
+}
+.text-modern-tan {
+  color: var(--color-modern-tan);
+}
+.text-modern-sage {
+  color: var(--color-modern-sage);
+}
+.text-modern-cream {
+  color: var(--color-modern-cream);
+}
+.text-modern-charcoal {
+  color: var(--color-modern-charcoal);
+}
+
+/* Border colors */
+.border-modern-blue {
+  border-color: var(--color-modern-blue);
+}
+.border-modern-sage {
+  border-color: var(--color-modern-sage);
+}
+.border-modern-cream {
+  border-color: var(--color-modern-cream);
+}
+
+/* Hover states */
+.hover\:bg-modern-cream:hover {
+  background-color: var(--color-modern-cream);
+}
+.hover\:bg-modern-sage:hover {
+  background-color: var(--color-modern-sage);
+}
+.hover\:text-modern-brick:hover {
+  color: var(--color-modern-brick);
 }

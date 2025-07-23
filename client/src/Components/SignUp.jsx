@@ -24,7 +24,7 @@ export default function SignUp({ onSignUp }) {
           value={formData.uid}
           onChange={handleChange}
           required
-          className="w-full p-2 border border-modern-sage rounded focus:outline-none focus:ring-2 focus:ring-modern-blue"
+          className="w-full p-2 border border-modern-sage rounded focus:outline-none focus:ring-2 focus:ring-modern-blue transition-all duration-300 transform focus:scale-[1.02]"
         />
         <input
           name="name"
@@ -32,7 +32,7 @@ export default function SignUp({ onSignUp }) {
           value={formData.name}
           onChange={handleChange}
           required
-          className="w-full p-2 border border-modern-sage rounded focus:outline-none focus:ring-2 focus:ring-modern-blue"
+          className="w-full p-2 border border-modern-sage rounded focus:outline-none focus:ring-2 focus:ring-modern-blue transition-all duration-300 transform focus:scale-[1.02]"
         />
         <input
           name="pwd"
@@ -41,18 +41,47 @@ export default function SignUp({ onSignUp }) {
           value={formData.pwd}
           onChange={handleChange}
           required
-          className="w-full p-2 border border-modern-sage rounded focus:outline-none focus:ring-2 focus:ring-modern-blue"
+          className="w-full p-2 border border-modern-sage rounded focus:outline-none focus:ring-2 focus:ring-modern-blue transition-all duration-300 transform focus:scale-[1.02]"
         />
         <button
           type="submit"
-          className="w-full bg-modern-blue text-white py-2 rounded hover:bg-modern-charcoal transition"
+          className="w-full text-white py-2 rounded transition-all duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95"
+          style={{
+            backgroundColor: '#729598'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.backgroundColor = '#5a7b7e';
+            e.target.style.transform = 'scale(1.05)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.backgroundColor = '#729598';
+            e.target.style.transform = 'scale(1)';
+          }}
         >
-          Sign Up
+          Create Account
         </button>
         <OAuth />
+   
       </form>
-      <p className="text-sm mt-4">
-        Already have an account? <a href="/signin" className="text-modern-blue hover:underline">Sign In</a>
+      <p className="text-sm mt-4 text-center">
+        Already have an account? 
+        <a 
+          href="/signin" 
+          className="inline-block text-white py-1 px-3 rounded ml-2 transition-all duration-300 transform hover:scale-105 hover:shadow-md active:scale-95 text-sm font-medium"
+          style={{
+            backgroundColor: '#dcb084'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.backgroundColor = '#c49a6b';
+            e.target.style.transform = 'scale(1.05)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.backgroundColor = '#dcb084';
+            e.target.style.transform = 'scale(1)';
+          }}
+        >
+          Sign In
+        </a>
       </p>
     </div>
   );

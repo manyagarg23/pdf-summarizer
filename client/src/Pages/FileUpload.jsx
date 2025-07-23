@@ -1,3 +1,5 @@
+// FileUpload Component
+
 import React, { useState } from 'react';
 
 function FileUpload({ onFileUpload }) {
@@ -29,25 +31,30 @@ function FileUpload({ onFileUpload }) {
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-100 px-4 py-8">
-      <div
-        className={`border-4 border-dashed rounded-2xl p-10 w-full max-w-xl bg-white transition-all duration-300 ${
-          isDragging ? 'border-blue-500 bg-blue-50 shadow-lg scale-105' : 'border-gray-300'
-        }`}
-        onDragEnter={handleDragEnter}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
-      >
-        <div className="text-center space-y-4">
-          <p className="text-5xl">📄</p>
-          <p className="text-lg font-medium text-gray-700">Drag & drop your PDF here</p>
-          <p className="text-sm text-gray-500">or</p>
-          <label className="inline-block cursor-pointer bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
-            Choose File
-            <input type="file" accept="application/pdf" onChange={handleFileSelect} hidden />
-          </label>
-        </div>
+    <div
+      className={`border-4 border-dashed rounded-2xl p-6 w-full transition-all duration-300 ${
+        isDragging ? 'border-modern-blue bg-blue-50 shadow-lg scale-105' : 'border-gray-300 bg-white'
+      }`}
+      onDragEnter={handleDragEnter}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+      <div className="text-center space-y-4">
+        <p className="text-4xl">📄</p>
+        <p className="text-md font-medium text-modern-charcoal">Drag & drop your PDF here</p>
+        <p className="text-sm text-gray-500">or</p>
+<label 
+  className="inline-block cursor-pointer text-white px-4 py-2 rounded-lg transition hover:opacity-90"
+  style={{
+    backgroundColor: '#729598'
+  }}
+  onMouseEnter={(e) => e.target.style.backgroundColor = '#5a7b7e'}
+  onMouseLeave={(e) => e.target.style.backgroundColor = '#729598'}
+>
+  Choose File
+  <input type="file" accept="application/pdf" onChange={handleFileSelect} className="hidden" />
+</label>
       </div>
     </div>
   );
