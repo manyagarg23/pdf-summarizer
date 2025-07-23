@@ -8,7 +8,7 @@ router.post("/toc", async (req, res) => {
     if (!text) {
       return res.status(400).json({ error: "No text provided" });
     }
-    const toc = await tocService(text);
+    const toc = await summarizeText(text);
     res.json({ toc });
   } catch (error) {
     console.error("Error generating TOC:", error);

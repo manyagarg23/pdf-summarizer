@@ -15,13 +15,15 @@
     "@langchain/core": "^0.3.64",
     "@langchain/google-genai": "^0.2.15",
     "@langchain/openai": "^0.6.1",
+    "axios": "^1.11.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "langchain": "^0.3.30",
     "mongoose": "^8.16.3",
     "multer": "^2.0.1",
-    "pdf-parse": "^1.1.1"
+    "pdf-parse": "^1.1.1",
+    "puppeteer": "^24.14.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

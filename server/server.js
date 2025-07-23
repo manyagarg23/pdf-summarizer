@@ -10,6 +10,7 @@ const uploadRoutes = require("./routes/upload");
 const summaryRoutes = require("./routes/summary");
 const questionRoutes = require("./routes/question");
 const tocRoutes = require("./routes/toc");
+const recRoutes = require("./routes/recommend");
 const app = express();
 const upload = multer({ dest: "uploads/" });
 
@@ -24,6 +25,7 @@ app.use("/", uploadRoutes);
 app.use("/", summaryRoutes);
 app.use("/", questionRoutes);
 app.use("/", tocRoutes);
+app.use("/", recRoutes);
 
 app.use(express.urlencoded({ extended: true }));
 
