@@ -3,14 +3,13 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
-const extractText = require("./services/pdfParser"); 
-const summarizeText = require("./services/summaryService"); 
 const mongoose = require("mongoose");
 const uploadRoutes = require("./routes/upload");
 const summaryRoutes = require("./routes/summary");
 const questionRoutes = require("./routes/question");
 const tocRoutes = require("./routes/toc");
 const recRoutes = require("./routes/recommend");
+const userRoutes = require("./routes/user");
 const app = express();
 const upload = multer({ dest: "uploads/" });
 
@@ -26,6 +25,7 @@ app.use("/", summaryRoutes);
 app.use("/", questionRoutes);
 app.use("/", tocRoutes);
 app.use("/", recRoutes);
+app.use("/", userRoutes);
 
 app.use(express.urlencoded({ extended: true }));
 

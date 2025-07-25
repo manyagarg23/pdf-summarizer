@@ -37,7 +37,10 @@ function Question({ handleQuestions }) {
         />
         <button
           onClick={handleSubmit}
-          className="w-full bg-modern-blue text-white py-2 px-4 rounded-lg hover-bg-modern-blue-dark transition font-medium"
+          className="text-white px-6 py-3 rounded-lg transition font-medium hover:opacity-90"
+              style={{ backgroundColor: '#729598' }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = '#5a7b7e'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = '#729598'}
         >
           Submit Question
         </button>

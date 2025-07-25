@@ -1,18 +1,39 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 import OAuth from './OAuth';
+import axios from 'axios';
 
-export default function SignUp({ onSignUp }) {
-  const [formData, setFormData] = useState({ uid: '', name: '', pwd: '', dos: '' });
+export default function SignUp() {
+  const [formData, setFormData] = useState({ uid: '', name: '', pwd: '' });
+  const navigate = useNavigate();
+  const { login } = useAuth();  // grab login from AuthContext
 
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    if (onSignUp) onSignUp(formData);
+    try {
+      const res = await axios.post("http://localhost:5000/register", {
+        email: formData.uid,
+        name: formData.name,
+        password: formData.pwd,
+      });
+
+      //  set the user globally so NavBar can read it
+      login({ name: formData.name, email: formData.uid });
+
+      // navigate to homepage
+      navigate('/');
+    } catch (err) {
+      console.error("Registration error", err);
+      alert("Something went wrong during registration.");
+    }
   }
+
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow text-modern-charcoal">

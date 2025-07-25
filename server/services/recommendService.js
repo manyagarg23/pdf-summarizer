@@ -72,14 +72,31 @@ const generateRecs = async (text) => {
     // 2. Scrape articles from the URLs
     const articles = await scrapeArticles(urls);
 
-    // 3. Split and embed the scraped articles
-    const articleDocs = await splitter.createDocuments(
-        articles.map(a => a.content),
-        articles.map(a => a.metadata)
+    // 3. Filter out articles with empty content and ensure content is string
+    const validArticles = articles.filter(article => 
+        article.content && 
+        typeof article.content === 'string' && 
+        article.content.trim().length > 0
     );
+
+    if (validArticles.length === 0) {
+        console.warn("No valid articles found to process");
+        return [];
+    }
+
+    // 4. Split and embed the scraped articles
+    const articleDocs = await splitter.createDocuments(
+        validArticles.map(a => a.content), // Now guaranteed to be strings
+        validArticles.map(a => ({ 
+            ...a.metadata, 
+            url: a.url, 
+            title: a.title 
+        }))
+    );
+    
     const articleVectorStore = await MemoryVectorStore.fromDocuments(articleDocs, embeddings);
 
-    // 4. Find articles most similar to the input text
+    // 5. Find articles most similar to the input text
     const query = text;
     const results = await articleVectorStore.similaritySearch(query, 2);
 
@@ -98,6 +115,7 @@ const generateRecs = async (text) => {
             url: url,
         });
     }
+    
     console.log(output);
     return output;
 };

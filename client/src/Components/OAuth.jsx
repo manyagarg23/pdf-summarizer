@@ -1,16 +1,40 @@
 import React from 'react';
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
 import { app } from '../firebase.js';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 function OAuth() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
   const handleOAuth = async () => {
     try {
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
+
+      // Open Google sign-in popup
       const result = await signInWithPopup(auth, provider);
-      console.log("User:", result.user.displayName, result.user.email);
+      const email = result.user.email;
+      const name = result.user.displayName;
+      const googleId = result.user.uid;
+
+      // Send data to your backend for registration/login
+      const res = await axios.post("http://localhost:5000/google", {
+        email,
+        name,
+        googleId
+      });
+
+      // Set the logged-in user globally (like in email signup)
+      login({ name, email });
+
+      // Navigate to homepage
+      navigate('/');
     } catch (error) {
-      console.error("Cannot sign in with Google", error);
+      console.error("OAuth login failed:", error);
+      alert("Google sign-in failed. Please try again.");
     }
   };
 

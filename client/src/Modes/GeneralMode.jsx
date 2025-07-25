@@ -17,23 +17,27 @@ export default function GeneralMode() {
   const [relatedArticles, setRelatedArticles] = useState([]);
   const [history, setHistory] = useState([]);
 
+  // Handles PDF file upload, extraction, recommendations, and updates state
   const handleFileUpload = async (files) => {
     const formData = new FormData();
     formData.append("file", files[0]);
+
     try {
+      // Upload PDF and extract text
       const res = await axios.post("http://localhost:5000/upload", formData);
       setPdfText(res.data.extractedText);
       setFileId(res.data.id);
-      // recommending articles
+
+      //  recommended articles 
       try {
-  const articlesRes = await axios.post("http://localhost:5000/recommend", {
-    text: res.data.extractedText,
-  });
-  setRelatedArticles(articlesRes.data.articles);
-} catch (err) {
-  console.error("Recommendation fetch error", err);
-}
-//past docs history
+        const articlesRes = await axios.post("http://localhost:5000/recommend", {
+          text: res.data.extractedText,
+        });
+        setRelatedArticles(articlesRes.data.articles);
+      } catch (err) {
+        console.error("Recommendation fetch error", err);
+      }
+
     } catch (err) {
       console.error("Upload error", err);
     }
