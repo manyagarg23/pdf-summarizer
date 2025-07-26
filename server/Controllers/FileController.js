@@ -4,15 +4,26 @@ const extractText = require("../services/pdfParser");
 const summarizeCode = require("../services/summaryService");
 const answerQuestion = require("../services/questionService");
 
-// Save PDF and generate summary
 async function saveFileInfo(req, res) {
   try {
+    console.log("This is the saveFileInfo function");
+
+    const { userId } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ error: "Missing userId" });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
     const filePath = req.file.path;
     const text = await extractText(filePath);
     const customSummary = await summarizeCode(text);
 
     const doc = new FileCollection({
-      userId: "defaultUser",
+      userId,
       filename: req.file.originalname,
       pdfText: text,
       summary: customSummary,
@@ -31,6 +42,7 @@ async function saveFileInfo(req, res) {
     res.status(500).json({ error: "Failed to save file" });
   }
 }
+
 
 // Handle QnA
 async function askQuestion(req, res) {

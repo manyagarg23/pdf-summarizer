@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FileUpload from '../Pages/FileUpload';
 import Summary from '../Pages/Summary';
 import Question from '../Pages/Question';
@@ -7,8 +7,11 @@ import FurtherReading from '../Pages/FurtherReading';
 import RecentDoc from '../Pages/RecentDoc'; 
 import axios from 'axios';
 import Split from '@uiw/react-split';
+import { useAuth } from "../Components/AuthContext";
 
 export default function GeneralMode() {
+  const { user } = useAuth();
+
   const [pdfText, setPdfText] = useState('');
   const [summary, setSummary] = useState('');
   const [toc, setToc] = useState('');
@@ -17,16 +20,46 @@ export default function GeneralMode() {
   const [relatedArticles, setRelatedArticles] = useState([]);
   const [history, setHistory] = useState([]);
 
+
+  const fetchRecentDocs = async () => {
+    if (!user?.email) return;
+    try {
+      const res = await axios.get("http://localhost:5000/recent", {
+        params: { email: user.email },
+      });
+      setHistory(res.data);
+    } catch (err) {
+      console.error("Error fetching recent documents:", err);
+    }
+  };
+
+  //  Call once on mount
+  useEffect(() => {
+    fetchRecentDocs();
+  }, [user]);
+
+
   // Handles PDF file upload, extraction, recommendations, and updates state
   const handleFileUpload = async (files) => {
+    
     const formData = new FormData();
     formData.append("file", files[0]);
+    
+    if (!user) {
+      alert("You must be logged in to upload files.");
+      return;
+    }
+
+    formData.append("userId", user.email); 
 
     try {
       // Upload PDF and extract text
       const res = await axios.post("http://localhost:5000/upload", formData);
       setPdfText(res.data.extractedText);
       setFileId(res.data.id);
+
+      //  Refresh history immediately
+      fetchRecentDocs();
 
       //  recommended articles 
       try {
@@ -35,7 +68,12 @@ export default function GeneralMode() {
         });
         setRelatedArticles(articlesRes.data.articles);
       } catch (err) {
-        console.error("Recommendation fetch error", err);
+        if (err.response && err.response.status === 404) {
+          console.error("No recommendations found for the provided text.");
+          setRelatedArticles(["Unfortunately, no recommendations found."]);
+        } else {
+          console.error("Recommendation fetch error", err);
+        }
       }
 
     } catch (err) {
@@ -85,7 +123,7 @@ export default function GeneralMode() {
           max={400}
         >
           {/* Left Sidebar */}
-          <div className="w-full max-w-[400px] min-w-[180px] bg-modern-grey p-4 flex flex-col gap-4 overflow-y-auto">
+          <div className="w-full max-w-[450px] min-w-[180px] p-4 bg-modern-grey flex flex-col gap-4 overflow-y-auto">
             <div className="bg-modern-cream p-4 rounded-xl shadow-sm">
               <FileUpload onFileUpload={handleFileUpload} />
             </div>
@@ -121,7 +159,7 @@ export default function GeneralMode() {
           </div>
 
           {/* Right Sidebar */}
-          <div className="w-full max-w-[700px] min-w-[180px] p-4 bg-modern-grey flex flex-col gap-4 overflow-y-auto">
+          <div className="w-full max-w-[450px] min-w-[180px] p-4 bg-modern-grey flex flex-col gap-4 overflow-y-auto">
             <button
               onClick={handleSummarize}
               className="text-white px-6 py-3 rounded-lg transition font-medium hover:opacity-90"
